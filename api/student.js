@@ -23,6 +23,29 @@ student.get('/', (req, res) => {
     });
 });
 
+// Get student
+student.get('/:id', (req, res) => {
+  if (req.params.id) {
+    StudentModel
+      .findById(req.params.id)
+      .then(student => {
+        return res.status(200).json({
+          message: 'Student successfully retrieved',
+          data: student
+        });
+      })
+      .catch(err => {
+        return res.status(400).json({
+          message: 'Could not fetch student. Error: ' + err.toString()
+        });
+      });
+  } else {
+    return res.status(400).json({
+      message: 'ID must be entered to delete a student'
+    });
+  }
+});
+
 // Create student
 student.post('/', (req, res) => {
   // grab student data for our post request
@@ -52,6 +75,29 @@ student.post('/', (req, res) => {
   } else {
     return res.status(400).json({
       message: 'A name must be provided when creating Students'
+    });
+  }
+});
+
+// Delete a student
+student.delete('/:id', (req, res) => {
+  if (req.params.id) {
+    StudentModel
+      .findByIdAndDelete(req.params.id)
+      .then(deleted => {
+        return res.status(200).json({
+          message: 'Student successfully deleted',
+          data: deleted
+        });
+      })
+      .catch(err => {
+        return res.status(400).json({
+          message: 'Could not delete student. Error: ' + err.toString()
+        });
+      });
+  } else {
+    return res.status(400).json({
+      message: 'ID must be entered to delete a student'
     });
   }
 });
