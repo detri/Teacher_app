@@ -3,6 +3,27 @@ import StudentModel from './models/student_model';
 
 const student = Router();
 
+// Get students
+student.get('/', (req, res) => {
+  StudentModel
+    .find()
+    .then(students => {
+      if (students.length) {
+        return res.status(200).json({
+          message: 'Students retrieved',
+          count: students.length,
+          data: students
+        });
+      }
+    })
+    .catch(err => {
+      return res.status(400).json({
+        message: 'Could not fetch students. Error: ' + err.toString()
+      });
+    });
+});
+
+// Create student
 student.post('/', (req, res) => {
   // grab student data for our post request
   // anything not in the body will be undefined
