@@ -41,7 +41,7 @@ student.get('/:id', (req, res) => {
       });
   } else {
     return res.status(400).json({
-      message: 'ID must be entered to delete a student'
+      message: 'ID must be entered to retrieve a student'
     });
   }
 });
